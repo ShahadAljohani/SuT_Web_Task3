@@ -16,6 +16,9 @@ Designed a page in my website for a robotic arm control panel and save the data 
 ### Result:
 
 
+https://github.com/user-attachments/assets/6e567aab-c9f7-4446-afc8-92350bd139f2
+
+
 --------
 ## About the website:
 The website shows how to connect a pose by a sliders to a database. It has six input fields 6 Motors and slider for each to set the value from 0 to 180 for a servo motor inside the robotic arm. The data is saved in the database using PHP as a backend.

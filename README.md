@@ -23,7 +23,7 @@ The website shows how to connect a pose by a sliders to a database. It has six i
 You’ll find the code implementation in the `get_run_pose.php`, and `controlPanel.html` files. 
 
 ----
-[Check out my website!]()
+[Check out my new Page!](https://shahadaljohani.github.io/SuT_Web_Task3/controlPanel.html)
 
 * for reference: codes were written by chatgpt and edited by me
   

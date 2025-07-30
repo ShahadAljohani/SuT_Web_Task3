@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<html>
+<head>
+  <title>Shahad's Website</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background-image: url('webBck1.jpg');
+      background-size: 1400px 700px;
+      background-repeat: no-repeat;
+      display: flex;
+      flex-direction: column;
+      align-items: center; 
+      font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    }
+
+    .text {
+      margin-top: 80px;
+      font-size: 30px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .subtext {
+      margin-top: 20px;
+      font-size: 20px;
+      text-align: center;
+    }
+
+    .robot-float {
+      width: 200px;
+      animation: float 5s ease-in-out infinite;
+      margin-top: 50px;
+    }
+
+    @keyframes float {
+      0%   { transform: translateY(0); }
+      50%  { transform: translateY(-20px); }
+      100% { transform: translateY(0); }
+    }
+
+    .button-container {
+      position: fixed;
+      bottom: 120px;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+    }
+
+    .button {
+      background-color: slategrey;
+      border-radius: 6px;
+      padding: 15px 30px;
+      color: white;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+    }
+  
+  .button:hover {
+     background-color:rgb(136, 152, 167);
+  }
+  </style>
+</head>
+
+<body>
+  <div class="text">Welcome</div>
+
+  <div class="subtext">This is a robotic arm control panel website made by Shahad</div>
+
+  <img src="webRobot.png" alt="Floating robot" class="robot-float">
+
+  <div class="button-container">
+    <a href="index2.html" class="button">Next Page</a>
+  </div>
+</body>
+</html>

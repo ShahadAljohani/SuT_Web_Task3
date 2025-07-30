@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Robot Arm Control Panel</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      top: 5px;
+      padding: 10px;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-image: url('webBck1.jpg');
+      background-size: 1400px 700px;
+      background-repeat: no-repeat;
+    }
+
+    #sliders, table, button, h2 {
+      text-align: center;
+      padding: 20px;
+      margin: 10px 0;
+    }
+
+    #sliders {
+      width: 400px; 
+    }
+
+    .motor {
+      margin: 10px 0;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .motor span {
+      width: 30px;
+      text-align: right;
+    }
+
+    .controls {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin: 20px 0;
+    }
+
+    button {
+      margin: 5px;
+      padding: 5px 10px;
+     background-color: slategrey;
+     border-radius: 6px;
+     color: white;
+     font-size: 15px;
+     border: none;
+     cursor: pointer;
+     text-decoration: none;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      max-width: 700px;
+    }
+
+    table, th, td {
+      border: 1px solid #ccc;
+    }
+
+    th, td {
+      padding: 8px;
+      text-align: center;
+    }
+	
+	.robot-float {
+      width: 200px;
+      animation: float 5s ease-in-out infinite;
+      margin-top: 40px;
+	  right: 40px;
+    }
+
+    @keyframes float {
+      0%   { transform: translateY(0); }
+      50%  { transform: translateY(-20px); }
+      100% { transform: translateY(0); }
+    }
+	
+    .robot-container {
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     margin-top: 20px;
+    }
+
+   .button {
+     background-color: slategrey;
+     border-radius: 6px;
+     padding: 15px 30px;
+     color: white;
+     font-size: 16px;
+     border: none;
+     cursor: pointer;
+     text-decoration: none;
+     margin-left: 5px; 
+	 bottom: 20px;
+	 left: 40px;
+    }
+
+   .robot-img {
+     width: 80px; 
+     height: auto;
+    }
+
+
+
+	
+  </style>
+</head>
+<body>
+  <h2>Robot Arm Control Panel</h2>
+
+ <form action="get_run_pose.php" method="POST">
+  <div id="sliders"> 
+    <div class="motor">
+      Motor 1: 
+      <input type="range" name="motor1" min="0" max="180" value="90" class="slider" oninput="this.nextElementSibling.value = this.value">
+      <output>90</output>
+    </div>
+    <div class="motor">
+      Motor 2: 
+      <input type="range" name="motor2" min="0" max="180" value="90" class="slider" oninput="this.nextElementSibling.value = this.value">
+      <output>90</output>
+    </div>
+    <div class="motor">
+      Motor 3: 
+      <input type="range" name="motor3" min="0" max="180" value="90" class="slider" oninput="this.nextElementSibling.value = this.value">
+      <output>90</output>
+    </div>
+    <div class="motor">
+      Motor 4: 
+      <input type="range" name="motor4" min="0" max="180" value="90" class="slider" oninput="this.nextElementSibling.value = this.value">
+      <output>90</output>
+    </div>
+    <div class="motor">
+      Motor 5: 
+      <input type="range" name="motor5" min="0" max="180" value="90" class="slider" oninput="this.nextElementSibling.value = this.value">
+      <output>90</output>
+    </div>
+    <div class="motor">
+      Motor 6: 
+      <input type="range" name="motor6" min="0" max="180" value="90" class="slider" oninput="this.nextElementSibling.value = this.value">
+      <output>90</output>
+    </div>
+  </div>
+  <div class="controls">
+    <button type="button" onclick="reset()">Reset</button>
+    <button type="submit" onclick="savePose()">Save Pose</button>
+    <button type="button" onclick="run()">Run</button>
+  </div>
+</form>
+
+  <table id="poseTable">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Motor 1</th>
+        <th>Motor 2</th>
+        <th>Motor 3</th>
+        <th>Motor 4</th>
+        <th>Motor 5</th>
+        <th>Motor 6</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+  
+  
+  <div class="robot-container">
+    <button class="button" onclick="window.history.back()">← Back</button>
+    <img src="webRobot.png" alt="Floating robot" class="robot-float">
+  </div>
+
+
+
+  
+  <script>
+    const sliders = document.querySelectorAll(".slider");
+    const tableBody = document.querySelector("#poseTable tbody");
+
+    sliders.forEach(slider => {
+      slider.addEventListener("input", () => {
+        slider.nextElementSibling.textContent = slider.value;
+      });
+    });
+
+    function reset() {
+      sliders.forEach(slider => {
+        slider.value = 90;
+        slider.nextElementSibling.textContent = 90;
+      });
+    }
+
+    function getPoseValues() {
+      return Array.from(sliders).map(slider => parseInt(slider.value));
+    }
+
+    function savePose() {
+      const pose = getPoseValues();
+      const row = document.createElement("tr");
+
+      let cell = document.createElement("td");
+      cell.textContent = tableBody.children.length + 1;
+      row.appendChild(cell);
+
+      pose.forEach(val => {
+        let c = document.createElement("td");
+        c.textContent = val;
+        row.appendChild(c);
+      });
+
+      const actionCell = document.createElement("td");
+
+      const loadBtn = document.createElement("button");
+      loadBtn.textContent = "Load";
+      loadBtn.onclick = () => loadPose(pose);
+      actionCell.appendChild(loadBtn);
+
+      const removeBtn = document.createElement("button");
+      removeBtn.textContent = "Remove";
+      removeBtn.onclick = () => row.remove();
+      actionCell.appendChild(removeBtn);
+
+      row.appendChild(actionCell);
+      tableBody.appendChild(row);
+    }
+
+    function loadPose(pose) {
+      sliders.forEach((slider, i) => {
+        slider.value = pose[i];
+        slider.nextElementSibling.textContent = pose[i];
+      });
+    }
+
+    function run() {
+      alert("Running current pose: " + getPoseValues().join(", "));
+    }
+  </script>
+</body>
+</html>
